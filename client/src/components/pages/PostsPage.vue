@@ -6,7 +6,10 @@
           | Posts
         h3
           | Здесь будут показаны все посты
-        br
+        div
+          router-link( :to="{ name: 'NewPost' }" )
+             | Добавить
+
         section.panel.panel-success( v-if="posts.length" )
           .panel-heading
             | Список постов
@@ -14,10 +17,13 @@
             tr
               th Название
               th Описание
-              th Автор
-            tr( v-for="post in posts", :key="post.title" )
+              th Действие
+            tr( v-for="(post, index) in posts", :key="post.title" )
               td {{ post.title }}
               td {{ post.description }}
+              td
+               router-link( :to="{ name: 'EditPost', params: { id: post._id } }" )
+                  | Изменить
 
         section.panel.panel-danger( v-if="posts.length<1" )
           p
@@ -41,13 +47,13 @@
     },
     methods: {
       async getPosts() {
-        const response = await PostsService.fetchPosts();
-        this.posts = response.data;
-        console.log(this.posts);
+        const response = await PostsService.fetchPosts()
+        this.posts = response.data.posts
+        console.log(this.posts)
       }
     },
     mounted() {
       this.getPosts()
     }
-  };
+  }
 </script>

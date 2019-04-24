@@ -7,6 +7,7 @@ const config = require('./config/config')
 
 mongoose.Promise = global.Promise
 
+
 const app = express()
 
 app.use(morgan('combined'))
@@ -23,8 +24,6 @@ mongoose.connection
             () => console.log(`Server start on port ${config.port} ...`))
     })
     .on('error', error => console.warn(error))
-
-
 
 // app.listen(process.env.PORT || config.port,
 //     () => console.log(`Server start on port ${config.port} ...`))
