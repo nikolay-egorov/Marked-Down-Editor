@@ -1,12 +1,13 @@
 //client routes here
 
-import Start from '@/components/pages/StartPage'
+import Hello from '@/components/HelloWord'
 import Posts from '@/components/pages/PostsPage'
+
 const routes = [
   {
     path: '/',
-    name: 'Start',
-    component: Start
+    name: 'Hello',
+    component: Hello
   },
   {
     path: '/posts',
@@ -14,4 +15,5 @@ const routes = [
     component: Posts
   }
 ]
+
 export default routes
