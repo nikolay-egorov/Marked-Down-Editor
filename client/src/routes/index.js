@@ -25,6 +25,7 @@ const routes = [{
     name: 'EditPost',
     component: EditPost
   }
+
 ]
 
 export default routes

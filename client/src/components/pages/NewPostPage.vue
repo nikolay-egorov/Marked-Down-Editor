@@ -1,7 +1,7 @@
 <template lang="pug">
   .container
     .row
-      .col-xs-12
+      .col-md-9
         h1
           | Добавить Новый Пост
         form

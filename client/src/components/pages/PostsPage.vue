@@ -1,7 +1,7 @@
 <template lang="pug">
 .container
    .row
-      .col-xs-12
+      .col-md-9
         h1
           | Posts
         h3
@@ -16,14 +16,16 @@
           table.table.table-striped
             tr
               th Название
-              th Описание
-              th Действие
+              th(align="center") Описание
+              th(width="200") Действие
             tr( v-for="(post, index) in posts", :key="post.title" )
               td {{ post.title }}
               td {{ post.description }}
-              td
+              td(align="center")
                router-link( :to="{ name: 'EditPost', params: { id: post._id } }" )
                   | Изменить
+               a( href='#', @click='removePost(post._id)' )
+                  |  Удалить
 
         section.panel.panel-danger( v-if="posts.length<1" )
           p
@@ -50,8 +52,13 @@
         const response = await PostsService.fetchPosts()
         this.posts = response.data.posts
         console.log(this.posts)
+      },
+      async removePost (value) {
+        await PostsService.deletePost(value)
+        this.getPosts()
       }
     },
+
     mounted() {
       this.getPosts()
     }

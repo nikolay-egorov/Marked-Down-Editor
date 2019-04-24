@@ -12,6 +12,9 @@ export default {
   },
   updatePost (params) {
     return api().put(`posts/${params.id}`, params)
+  },
+  deletePost (id) {
+    return api().delete(`posts/${id}`)
   }
 
 
