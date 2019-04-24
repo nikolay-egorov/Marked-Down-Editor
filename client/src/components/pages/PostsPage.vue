@@ -6,7 +6,7 @@
           | Posts
         h3
           | Здесь будут показаны все посты
-
+        br
         section.panel.panel-success( v-if="posts.length" )
           .panel-heading
             | Список постов
