@@ -3,24 +3,23 @@
    .row
       .col-md-9
         h1
-          | Posts
+          | Все Посты
         h3
           | Здесь будут показаны все посты
-        div
-          router-link( :to="{ name: 'NewPost' }" )
-             | Добавить
+
+        hr
 
         section.panel.panel-success( v-if="posts.length" )
           .panel-heading
             | Список постов
           table.table.table-striped
             tr
-              th Название
-              th(align="center") Описание
+              th Дата
+              th(align="center") Название
               th(width="200") Действие
             tr( v-for="(post, index) in posts", :key="post.title" )
+              td {{ post.postTime }}
               td {{ post.title }}
-              td {{ post.description }}
               td(align="center")
                router-link( :to="{ name: 'EditPost', params: { id: post._id } }" )
                   | Изменить
@@ -30,8 +29,10 @@
         section.panel.panel-danger( v-if="posts.length<1" )
           p
             | Здесь ничего нет ... Исправим это!
-          div
-            router-link( :to="{ name: 'NewPost' }" )
+
+      .col-md-3
+        .p
+           router-link( :to="{ name: 'NewPost' }" )
               | Добавить новый пост
 
 
@@ -39,6 +40,10 @@
 
 <script>
   import PostsService from "@/services/PostsService"
+  import { dateFormat } from '@/utils.js'
+  // import HeaderBar from '@/components/public/Header'
+  // import FooterBar from '@/components/public/Footer'
+
 
   export default {
     name: 'PostsPage',
@@ -47,6 +52,10 @@
         posts: []
       }
     },
+    // components: {
+    //   HeaderBar,
+    //   FooterBar
+    // },
     methods: {
       async getPosts() {
         const response = await PostsService.fetchPosts()

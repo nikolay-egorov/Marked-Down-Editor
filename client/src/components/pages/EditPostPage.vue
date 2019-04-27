@@ -1,25 +1,50 @@
 <template lang="pug">
   .container
+    .h1
+        | Редактирование
+    br
+    br
     .row
-      .col-md-9
+      .col-md-6
+        h3
+          | Конструктор
+        br
         section.edit
-          h1
-            | Редактирование
           form( @submit.prevent="editPost()" )
             .form-group
+               label(for="title")
+                | Название
                input.form-control( type="text", name="title", id="title", placeholder="Название", v-model.trim="post.title" )
             .form-group
-                  textarea.form-control( type="text", name="description", id="description", placeholder="Содержание", v-model.trim="post.description" )
+              label(for="description")
+                | Содержание
+              textarea.form-control(rows="10", type="text", name="description", id="description", placeholder="Содержание", v-model.trim="post.description", v-on:input="update" )
             .form-group
-              button.btn.btn-block.btn-primary( type="submit", name="editPost" )
+                  .label(for="publicationDate")
+                    | Дата публикации
+                  VueCtkDateTimePicker(id="postTime", v-model="post.postTime", :format="YYYY-MM-DD" , :only-date="true", :no-label="true", :locale="ru")
+            .form-group
+              button.btn.btn-primary( type="submit", name="editPost" )
                 | Изменить
-          div
-            router-link( :to="{ name: 'Posts' }" )
-              | на главную
+
+
+      .col-md-6
+        h3
+          | Превью
+        div(id="preview" class="markdown-body")
+
+
+    div
+
+      br
+      router-link( :to="{ name: 'Posts' }" )
+        | на главную
+
 </template>
 
 <script>
   import PostsService from '@/services/PostsService'
+  import {toHTML} from '@/utils.js'
 
   export default {
     name: 'EditPostPage',
@@ -27,7 +52,9 @@
       return {
         post: {
           title: '',
-          description: ''
+          description: '',
+          postTime: null
+          // content:''
         }
       }
     },
@@ -36,17 +63,36 @@
         const response = await PostsService.getPost({id: this.$route.params.id})
         this.post.title = response.data.title
         this.post.description = response.data.description
+        this.post.postTime = response.data.postTime
+        // this.post.content = response.data.content
+        this.update()
       },
       async editPost() {
         if (this.post.title !== '' && this.post.description !== '') {
           await PostsService.updatePost({
             id: this.$route.params.id,
             title: this.post.title,
-            description: this.post.description
+            description: this.post.description,
+            postTime: this.post.postTime
           })
           this.$router.push({name: 'Posts'})
         }
+      },
+      update: function () {
+        document.getElementById("preview").innerHTML = toHTML(
+          this.post.description
+        )
+        document.getElementById("preview").style.textAlign = "left"
+      },
+      handleClose(done) {
+        this.$confirm("Закрыть？")
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {
+          });
       }
+
     },
     mounted() {
       this.getPost()

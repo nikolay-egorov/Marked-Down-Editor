@@ -1,32 +1,60 @@
 <template lang="pug">
   .container
+    h1
+      | Новый Пост
+    hr
     .row
-      .col-md-9
-        h1
-          | Добавить Новый Пост
+      .col-md-6
+        h3
+          | Конструктор
+        br
         form
           .form-group
-            input.form-control( type="text", name="title", id="title", placeholder="Название", v-model.trim="post.title" )
+            label(for="title")
+              | Название
+            input.form-control( type="text", name="title", id="title", placeholder="Встречают по одежке", v-model.trim="post.title" required autofocus)
           .form-group
-            textarea.form-control( type="text", rows="5", name="description", id="description", placeholder="Содержание", v-model.trim="post.description" )
+            label(for="description")
+              | Содержание
+            textarea.form-control( type="text", rows="10", name="description", id="description", placeholder="Содержание",required v-model.trim="post.description",
+             v-on:input="update")
+
           .form-group
-            button.btn.btn-block.btn-primary( type="button", name="addPost", id="addPost", @click="addPost()" )
-              | Добавить пост
-          section
-            button.btn.btn-success.btn-block( type="button", @click="goBack()" )
-              | На главную
+            label(for="postTime")
+              | Дата Публикации
+            VueCtkDateTimePicker(id="postTime", v-model="post.postTime", :format="YYYY-MM-DD" , :only-date="true", :no-label="true", :locale="ru")
+
+
+      .col-md-6
+        h3
+          | Превью
+        br
+        div(id="preview" sd-model-to-html="text" class="markdown-body")
+
+    .div
+      button.btn.btn-primary( type="button", name="addPost", id="addPost", @click="addPost()" )
+        | Добавить пост
+      br
+      br
+      button.btn.btn-success(align="center", type="button", @click="goBack()" )
+        | На главную
 </template>
 
 
 <script>
   import PostsService from '@/services/PostsService'
+  import { toHTML } from '@/utils.js'
+
+
+
   export default {
     name: 'NewPostPage',
     data () {
       return {
         post: {
           title: '',
-          description: ''
+          description: '',
+          postTime: null
         }
       }
     },
@@ -35,12 +63,19 @@
         if (this.post.title !== '' && this.post.description !== '') {
           await PostsService.addNewPost({
             title: this.post.title,
-            description: this.post.description
+            description: this.post.description,
+            postTime: this.post.postTime
           })
           this.$router.push({ name: 'Posts' })
         } else {
-          alert('Empty fields!')
+          alert('Пустые поля!')
         }
+      },
+      update: function () {
+        document.getElementById("preview").innerHTML = toHTML(
+          this.post.description
+        )
+        document.getElementById("preview").style.textAlign="left"
       },
       goBack () {
         this.$router.push({ name: 'Posts' })
