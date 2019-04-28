@@ -6,7 +6,8 @@ const Post = require('../models/post-model')
 router.post('/posts', (req, res) => {
     const post = new Post({
         title: req.body.title,
-        description: req.body.description
+        description: req.body.description,
+        postTime: req.body.postTime
     })
     post.save((err, data) => {
         if (err) {
@@ -55,10 +56,13 @@ router.put('/posts/:id', (req, res) => {
             }
             if (req.body.postTime) {
                 post.postTime = req.body.postTime
+                console.log("REQUESTED timeStamp: " + req.body.postTime  )
+
             }
             post.save(err => {
                 if (err) {
                     res.sendStatus(500)
+                    console.log(err)
                 } else {
                     res.sendStatus(200)
                 }

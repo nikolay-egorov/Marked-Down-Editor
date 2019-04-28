@@ -4,22 +4,21 @@
       .col-md-9
         h1
           | Все Посты
+        hr
         h3
           | Здесь будут показаны все посты
 
-        hr
 
         section.panel.panel-success( v-if="posts.length" )
-          .panel-heading
-            | Список постов
+
           table.table.table-striped
             tr
               th Дата
               th(align="center") Название
               th(width="200") Действие
-            tr( v-for="(post, index) in posts", :key="post.title" )
+            tr( v-for="(post, index) in posts", :key="post.title"  )
               td {{moment(post.postTime)}}
-              td {{ post.title }}
+              td( v-on:click="readMore(post)") {{ post.title }}
               td(align="center")
                router-link( :to="{ name: 'EditPost', params: { id: post._id } }" )
                   | Изменить
@@ -40,7 +39,6 @@
 
 <script>
   import PostsService from "@/services/PostsService"
-  import { dateFormat } from '@/utils.js'
   import  moment  from 'moment'
   // import HeaderBar from '@/components/public/Header'
   // import FooterBar from '@/components/public/Footer'
@@ -64,11 +62,18 @@
         console.log(this.posts)
       },
       async removePost (value) {
-        await PostsService.deletePost(value)
-        this.getPosts()
+        if (confirm('Вы уверены, что хотите удалить пост?')) {
+          await PostsService.deletePost(value)
+          this.getPosts()
+        } else {
+
+        }
       },
       moment(date){
         return moment(date).locale("ru").format("DD MMM YYYY")
+      },
+      readMore(post){
+        this.$router.push({ name: 'detail', params:  { id: post._id } })
       }
     },
 

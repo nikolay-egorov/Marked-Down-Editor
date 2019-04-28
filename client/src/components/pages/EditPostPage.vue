@@ -14,7 +14,7 @@
             .form-group
                label(for="title")
                 | Название
-               input.form-control( type="text", name="title", id="title", placeholder="Название", v-model.trim="post.title" )
+               input.form-control( type="text", name="title", id="title", placeholder="Название", v-model.trim="post.title", v-on:input="placeTitle(this)" )
             .form-group
               label(for="description")
                 | Содержание
@@ -22,7 +22,7 @@
             .form-group
                   .label(for="publicationDate")
                     | Дата публикации
-                  VueCtkDateTimePicker(v-model="post.postTime", id="postTime",  format="MM-DD-YYYY" , formatted="ll", label="Выберите дату", only-date="true", locale="ru")
+                  VueCtkDateTimePicker(v-model="post.postTime", id="postTime", formatted="ll", format="YYYY-MM-DD"  label="Выберите дату", only-date="true", locale="ru")
             .form-group
               button.btn.btn-primary( type="submit", name="editPost" )
                 | Изменить
@@ -31,6 +31,8 @@
       .col-md-6
         h3
           | Превью
+        br
+        div(id="titlePrev")
         div(id="preview" class="markdown-body")
 
 
@@ -53,7 +55,7 @@
         post: {
           title: '',
           description: '',
-          postTime: null
+          postTime: 0
           // content:''
         }
       }
@@ -64,6 +66,8 @@
         this.post.title = response.data.title
         this.post.description = response.data.description
         this.post.postTime = response.data.postTime
+        console.log(response.data.postTime)
+        console.log(this.post.postTime)
         // this.post.content = response.data.content
         this.update()
       },
@@ -84,14 +88,10 @@
         )
         document.getElementById("preview").style.textAlign = "left"
       },
-      handleClose(done) {
-        this.$confirm("Закрыть？")
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {
-          });
-      }
+      getTitle() {
+        let title = document.getElementById("title").innerText
+        document.getElementById("titlePrev").innerHTML ='<h2>' + title + '</h2>'
+      },
 
     },
     mounted() {

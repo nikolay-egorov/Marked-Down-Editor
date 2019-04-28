@@ -4,6 +4,8 @@ import Hello from '@/components/HelloWord'
 import Posts from '@/components/pages/PostsPage'
 import NewPost from '@/components/pages/NewPostPage'
 import EditPost from '@/components/pages/EditPostPage'
+import Detail from '@/components/pages/PostDetail'
+
 
 const routes = [{
     path: '/',
@@ -24,6 +26,15 @@ const routes = [{
     path: '/posts/:id',
     name: 'EditPost',
     component: EditPost
+  },
+  {
+    path: '/detail/:id',
+    name: 'detail',
+    component: Detail
+  },
+  {
+    path: '/',
+    redirect: '/posts'
   }
 
 ]

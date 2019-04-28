@@ -22,7 +22,7 @@
           .form-group
             label(for="postTime")
               | Дата Публикации
-            VueCtkDateTimePicker(v-model="post.postTime", id="postTime",  format="MM-DD-YYYY" , formatted="ll", label="Выберите дату", only-date="true", locale="ru")
+            VueCtkDateTimePicker(v-model="post.postTime", id="postTime", format="YYYY-MM-DD" , formatted="ll", label="Выберите дату", only-date="true", locale="ru")
 
 
       .col-md-6
@@ -54,7 +54,7 @@
         post: {
           title: '',
           description: '',
-          postTime: null
+          postTime: ''
         }
       }
     },
@@ -66,6 +66,7 @@
             description: this.post.description,
             postTime: this.post.postTime
           })
+          console.log(postTime)
           this.$router.push({ name: 'Posts' })
         } else {
           alert('Пустые поля!')

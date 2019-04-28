@@ -4,22 +4,27 @@
     .col-md-9
       h1
         |{{post.title}}
-      .ul(class="list-inline"
+
+      .ul(class="list-inline")
         .li
-          .i(class="glyphicon glyphicon-calendar")
-            | {{dateFormat(post.postTime)}}
+          .i(class="oi oi-calendar")
+            | Опубликовано: {{moment(post.postTime)}}
       hr
-        .div(id="content" class="markdown-body")
+      br
+      .div(id="content" class="markdown-body")
 
     .col-md-3
-.p
-  router-link( :to="{ name: 'Posts'}")
-    | На главную
+      .p
+        router-link( :to="{ name: 'Posts' }" )
+          | На главную
+
+
 </template>
 
 <script>
   import PostsService from '@/services/PostsService'
-  import { dateFormat } from "../util"
+  import  moment  from 'moment'
+  import {toHTML} from '@/utils.js'
 
   export default {
     data: function () {
@@ -27,7 +32,7 @@
         post: {
           title: '',
           description: '',
-          postTime: 0
+          postTime: null
         }
       }
     },
@@ -42,12 +47,16 @@
       initMarkdown: function() {
         document.getElementById("content").innerHTML = toHTML(
           this.post.description
-        );
+        )
+        document.getElementById("content").style.textAlign = "left"
       },
+      moment(date){
+        return moment(date).locale("ru").format("DD MMM YYYY")
+      }
+    },
+    mounted() {
+      this.getPost()
     }
   }
 </script>
 
-<style scoped>
-
-</style>
