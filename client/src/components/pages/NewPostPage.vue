@@ -12,7 +12,7 @@
           .form-group
             label(for="title")
               | Название
-            input.form-control( type="text", name="title", id="title", placeholder="Встречают по одежке", v-model.trim="post.title" required autofocus)
+            input.form-control( type="text", name="title", id="title", placeholder="Встречают по одежке", v-model.trim="post.title" required autofocus , v-on:input="getTitle")
           .form-group
             label(for="description")
               | Содержание
@@ -28,7 +28,9 @@
       .col-md-6
         h3
           | Превью
+        hr
         br
+        div(id="titlePrev")
         div(id="preview" sd-model-to-html="text" class="markdown-body")
 
     .div
@@ -80,7 +82,11 @@
       },
       goBack () {
         this.$router.push({ name: 'Posts' })
-      }
+      },
+      getTitle() {
+        let title = { name: this.post.title}
+        document.getElementById("titlePrev").innerHTML =`<h4>${title.name}</h4>`
+      },
     }
   }
 </script>

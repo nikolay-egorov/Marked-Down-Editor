@@ -14,7 +14,7 @@
             .form-group
                label(for="title")
                 | Название
-               input.form-control( type="text", name="title", id="title", placeholder="Название", v-model.trim="post.title", v-on:input="placeTitle(this)" )
+               input.form-control( type="text", name="title", id="title", placeholder="Название", v-model.trim="post.title", v-on:input="getTitle" )
             .form-group
               label(for="description")
                 | Содержание
@@ -33,6 +33,7 @@
           | Превью
         br
         div(id="titlePrev")
+        hr
         div(id="preview" class="markdown-body")
 
 
@@ -70,6 +71,7 @@
         console.log(this.post.postTime)
         // this.post.content = response.data.content
         this.update()
+        this.getTitle()
       },
       async editPost() {
         if (this.post.title !== '' && this.post.description !== '') {
@@ -89,8 +91,9 @@
         document.getElementById("preview").style.textAlign = "left"
       },
       getTitle() {
-        let title = document.getElementById("title").innerText
-        document.getElementById("titlePrev").innerHTML ='<h2>' + title + '</h2>'
+
+        let title = { name: this.post.title}
+        document.getElementById("titlePrev").innerHTML =`<h4>${title.name}</h4>`
       },
 
     },
