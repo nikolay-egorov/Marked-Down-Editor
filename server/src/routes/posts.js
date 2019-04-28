@@ -22,7 +22,7 @@ router.post('/posts', (req, res) => {
 
 
 router.get('/posts', (req, res) => {
-    Post.find({}, 'title description', (err, posts) => {
+    Post.find({}, 'title description postTime', (err, posts) => {
         if (err) {
             res.sendStatus(500)
         } else {
@@ -33,7 +33,7 @@ router.get('/posts', (req, res) => {
 
 
 router.get('/posts/:id', (req, res) => {
-    Post.findById(req.params.id, 'title description', (err, post) => {
+    Post.findById(req.params.id, 'title description postTime', (err, post) => {
         if (err) {
             res.sendStatus(500)
         } else {
@@ -43,7 +43,7 @@ router.get('/posts/:id', (req, res) => {
 })
 
 router.put('/posts/:id', (req, res) => {
-    Post.findById(req.params.id, 'title description', (err, post) => {
+    Post.findById(req.params.id, 'title description postTime', (err, post) => {
         if (err) {
             console.log(err)
         } else {
@@ -52,6 +52,9 @@ router.put('/posts/:id', (req, res) => {
             }
             if (req.body.description) {
                 post.description = req.body.description
+            }
+            if (req.body.postTime) {
+                post.postTime = req.body.postTime
             }
             post.save(err => {
                 if (err) {

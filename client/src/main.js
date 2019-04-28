@@ -12,9 +12,6 @@ import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
 Vue.component('VueCtkDateTimePicker', VueCtkDateTimePicker);
 
 Vue.use(BootstrapVue)
-
-
-
 Vue.config.productionTip = false
 
 // Vue.component('c-nav-bar', Navbar);

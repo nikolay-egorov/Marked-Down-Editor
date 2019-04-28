@@ -22,7 +22,7 @@
             .form-group
                   .label(for="publicationDate")
                     | Дата публикации
-                  VueCtkDateTimePicker(id="postTime", v-model="post.postTime", :format="YYYY-MM-DD" , :only-date="true", :no-label="true", :locale="ru")
+                  VueCtkDateTimePicker(v-model="post.postTime", id="postTime",  format="MM-DD-YYYY" , formatted="ll", label="Выберите дату", only-date="true", locale="ru")
             .form-group
               button.btn.btn-primary( type="submit", name="editPost" )
                 | Изменить

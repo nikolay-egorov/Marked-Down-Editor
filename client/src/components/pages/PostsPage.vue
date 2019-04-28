@@ -18,7 +18,7 @@
               th(align="center") Название
               th(width="200") Действие
             tr( v-for="(post, index) in posts", :key="post.title" )
-              td {{ post.postTime }}
+              td {{moment(post.postTime)}}
               td {{ post.title }}
               td(align="center")
                router-link( :to="{ name: 'EditPost', params: { id: post._id } }" )
@@ -41,6 +41,7 @@
 <script>
   import PostsService from "@/services/PostsService"
   import { dateFormat } from '@/utils.js'
+  import  moment  from 'moment'
   // import HeaderBar from '@/components/public/Header'
   // import FooterBar from '@/components/public/Footer'
 
@@ -65,6 +66,9 @@
       async removePost (value) {
         await PostsService.deletePost(value)
         this.getPosts()
+      },
+      moment(date){
+        return moment(date).locale("ru").format("DD MMM YYYY")
       }
     },
 
