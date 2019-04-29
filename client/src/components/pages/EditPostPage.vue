@@ -91,7 +91,6 @@
         document.getElementById("preview").style.textAlign = "left"
       },
       getTitle() {
-
         let title = { name: this.post.title}
         document.getElementById("titlePrev").innerHTML =`<h4>${title.name}</h4>`
       },

@@ -44,13 +44,13 @@
         this.post.postTime = response.data.postTime
         this.initMarkdown()
       },
-      initMarkdown: function() {
+      initMarkdown()  {
         document.getElementById("content").innerHTML = toHTML(
           this.post.description
         )
         document.getElementById("content").style.textAlign = "left"
       },
-      moment(date){
+      moment:(date) => {
         return moment(date).locale("ru").format("DD MMM YYYY")
       }
     },

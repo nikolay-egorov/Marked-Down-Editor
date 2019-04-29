@@ -28,9 +28,9 @@
       .col-md-6
         h3
           | Превью
-        hr
         br
         div(id="titlePrev")
+        hr
         div(id="preview" sd-model-to-html="text" class="markdown-body")
 
     .div

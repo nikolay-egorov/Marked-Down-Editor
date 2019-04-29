@@ -56,7 +56,7 @@
     //   FooterBar
     // },
     methods: {
-      async getPosts() {
+      async getPosts () {
         const response = await PostsService.fetchPosts()
         this.posts = response.data.posts
         console.log(this.posts)
@@ -69,7 +69,7 @@
 
         }
       },
-      moment(date){
+      moment:(date)=>{
         return moment(date).locale("ru").format("DD MMM YYYY")
       },
       readMore(post){
